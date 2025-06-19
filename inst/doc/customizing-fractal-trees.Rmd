@@ -1,0 +1,19 @@
+---
+title: "customizing-fractal-trees"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{customizing-fractal-trees}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(fractalforest)
+```

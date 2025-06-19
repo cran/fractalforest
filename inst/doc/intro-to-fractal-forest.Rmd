@@ -1,0 +1,95 @@
+---
+title: "Intro to fractalforest"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{intro-to-fractal-forest}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The `fractalforest` package allows the simulation of fractal trees and, consequently, fractal forests. The trees are created using the Lindenmayer system (L-system).  
+
+It is possible to use forest inventory, floristic surveys, and phytosociological studies databases to represent the schematic profile of the forest, as shown in the following example.
+
+```{r, message=FALSE, warning=FALSE, results='hide', out.width='100%', fig.width=7, fig.height=5, dpi = 200}
+library(fractalforest)
+library(forestmangr)
+library(dplyr)
+
+data("exfm20")
+
+dados <- exfm20 %>%
+  filter(!dead)
+
+fracflor <- build_forest_profile(data = dados,
+                                 height = Htot,
+                                 diameter = dbh,
+                                 label = scientific.name,
+                                 leaf_size = 50,
+                                 tree_model = 2,
+                                 sample = TRUE,
+                                 n_trees = 30,
+)
+
+plot_forest_profile(fracflor,
+                    label = scientific.name)
+```
+
+The `build_forest_profile` function creates a fractal tree database from a dataset where each row represents a tree. When the argument `sample = TRUE`, the trees to be plotted are randomly selected from the dataset, and the number of trees is defined by the `n_trees` argument.  
+The `plot_forest_profile` function uses the `ggplot2` package to plot the fractal forest based on the dataset created by the `build_forest_profile` function.  
+
+Some parameters make it possible to customize the visualization of fractal trees, including adding colors, and diameters from the base to the top of the trees.  
+
+```{r, results='hide', out.width='100%', fig.width=7, fig.height=5, dpi = 200}
+fracflor_colors <- fracflor %>%
+  select(tree_id) %>%
+  distinct() %>%
+  rowwise() %>%
+  mutate(cor_folhas = sample(c('darkgreen','darkolivegreen','darkolivegreen4','darkseagreen4'), 1),
+         cor_ramos = sample(c('firebrick4','brown4','chocolate4','bisque4'),1))
+
+fracflor2 <- fracflor %>%
+  left_join(fracflor_colors, by = 'tree_id')
+
+plot_forest_profile(fracflor2,
+                    d_col = diameter,
+                    branch_color = cor_ramos,
+                    leaf_color = cor_folhas,
+                    label = scientific.name)
+```
+
+There are several ways to introduce randomness when constructing the fractal trees and fractal forests. The `build_forest_profile` function includes arguments that control the variability of branch angles, lengths, and even the distance between trees. The parameters are detailed in the function documentation. 
+
+
+```{r, results='hide', out.width='100%', fig.width=7, fig.height=5, dpi = 200}
+
+fracflor <- build_forest_profile(data = dados,
+                                 height = Htot,
+                                 diameter = dbh,
+                                 label = scientific.name,
+                                 leaf_size = 50,
+                                 randomness = T,
+                                 angle_cv = .1,
+                                 length_cv = .3,
+                                 dist_cv = .2,
+                                 tree_model = 6,
+                                 sample = TRUE,
+                                 n_trees = 30,
+)
+
+fracflor2 <- fracflor %>%
+  left_join(fracflor_colors, by = 'tree_id')
+
+plot_forest_profile(fracflor2,
+                    d_col = diameter,
+                    branch_color = cor_ramos,
+                    leaf_color = cor_folhas,
+                    label = scientific.name)
+```
