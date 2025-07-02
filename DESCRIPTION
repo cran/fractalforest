@@ -1,6 +1,6 @@
 Package: fractalforest
 Title: Simulate Fractal Trees and Forests
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: 
     c(person(given = "Sergio",
              family = "Costa",
@@ -18,15 +18,15 @@ Encoding: UTF-8
 RoxygenNote: 7.2.3
 Imports: dplyr, purrr, stringi, stringr, magrittr, ggplot2, cowplot,
         sf, rlang, stats, utils
-Suggests: knitr, rmarkdown, spelling, forestmangr
+Suggests: knitr, rmarkdown, spelling, forestmangr, patchwork
 VignetteBuilder: knitr
 Language: en-US
 NeedsCompilation: no
-Packaged: 2025-06-18 13:02:45 UTC; sergio.costa
+Packaged: 2025-07-02 17:40:41 UTC; sergio.costa
 Author: Sergio Costa [aut, cre, cph] (ORCID:
     <https://orcid.org/0000-0001-5432-317X>),
   Gilmara Machado [aut, cph] (ORCID:
     <https://orcid.org/0000-0003-1455-9086>)
 Maintainer: Sergio Costa <sergio.vscf@gmail.com>
 Repository: CRAN
-Date/Publication: 2025-06-19 15:20:10 UTC
+Date/Publication: 2025-07-02 18:40:01 UTC
